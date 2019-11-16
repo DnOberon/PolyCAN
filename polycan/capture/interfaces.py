@@ -1,3 +1,4 @@
+import capture.capture as capture
 import can
 import sys
 
@@ -11,8 +12,8 @@ def __configurations() -> tuple:
     )
 
 
-def can_int(config: dict) -> can.Bus:
-    return can.interface.Bus(**config)
+def can_int(config: dict) -> capture.MessageBus:
+    return capture.MessageBus(can.interface.Bus(**config))
 
 
 def slcan_config() -> dict:

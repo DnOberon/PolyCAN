@@ -1,6 +1,7 @@
 import time
 import unittest
 import capture.interfaces as interfaces
+import capture.capture as capture
 import can
 
 
@@ -9,11 +10,12 @@ class MyTestCase(unittest.TestCase):
         bus = interfaces.can_int(interfaces.slcan_config())
         try:
             while True:
-                msg = bus.recv(1)
+                msg = capture.receive(bus)
                 if msg is not None:
-                    print(bin(msg))
+                    print(msg.raw_id)
+                    print(msg.timestamp)
         except KeyboardInterrupt:
-            bus.shutdown()
+            capture.shutdown(bus)
             pass
 
 
