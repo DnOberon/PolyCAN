@@ -4,7 +4,8 @@ polycan/secret.json
 polycan.egg.info/*
 polycan.egg_info
 polycan/__pycache__/
-polycan/__pycache__/* 
+polycan/__pycache__/*pyc
 /__pycache__/
 .DS_Store
 venv
+*.pyc

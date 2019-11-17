@@ -1,4 +1,6 @@
-import capture.capture as capture
+from typing import Union
+
+import polycan.can.capture as capture
 import can
 import sys
 
@@ -12,8 +14,11 @@ def __configurations() -> tuple:
     )
 
 
-def can_int(config: dict) -> capture.MessageBus:
-    return capture.MessageBus(can.interface.Bus(**config))
+def can_init(config: dict) -> Union[capture.MessageBus, Exception]:
+    try:
+        return capture.MessageBus(can.interface.Bus(**config))
+    except Exception as err:
+        return err
 
 
 def slcan_config() -> dict:

@@ -10,3 +10,5 @@ PyMySQL
 mysql-connector-python
 matplotlib
 protobuf
+python-can
+pyserial

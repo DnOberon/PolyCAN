@@ -16,12 +16,12 @@ class Message:
 
     @property
     def timestamp(self) -> str:
-        return time.strftime("%m/%d/%Y, %H:%M:%S", time.localtime(self.__can_message.timestamp))
+        return time.strftime("%m/%d/%Y %H:%M:%S", time.localtime(self.__can_message.timestamp))
 
     @property
     def pgn(self) -> int:
         # TODO: explain the broadcast to all vs. destination
-        if (((self.raw_id & 0xFF0000) >> 16) <= 239):
+        if ((self.raw_id & 0xFF0000) >> 16) <= 239:
             return (self.raw_id & 0x3FF0000) >> 8
         else:
             return (self.raw_id & 0x3FFFF00) >> 8
@@ -48,11 +48,16 @@ class MessageBus:
 
 
 def receive(bus: MessageBus) -> Message:
-    return Message(bus.can_bus.recv(1))
+    # TODO: message validation
+    return Message(bus.can_bus.recv())
 
 
-def send(bus: MessageBus, message: Message):
-    return bus.can_bus.send(message)
+def send(bus: MessageBus, message: Message, error_callback: callable):
+    try:
+        bus.can_bus.send(message)
+    except can.CanError as err:
+        if callable(error_callback):
+            error_callback(err)
 
 
 def shutdown(bus: MessageBus):
