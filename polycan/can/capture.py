@@ -41,6 +41,10 @@ class Message:
         else:
             return 255
 
+    @property
+    def is_multi_start(self) -> bool:
+        return self.pgn == 60416
+
 
 class MessageBus:
     def __init__(self, bus: can.Bus):
